@@ -28,7 +28,7 @@ module Thredded
         return [] if collection.blank?
         keyed_collection = collection.each_with_object({}) do |item, hash|
           key = ActiveSupport::Cache.expand_cache_key(
-            view_context.cache_fragment_name(item, virtual_path: template.virtual_path), :views
+            view_context.cache_fragment_name(item), :views
           )
           # #read_multi & #write may require key mutability, Dalli 2.6.0.
           hash[key.frozen? ? key.dup : key] = item
