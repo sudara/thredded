@@ -82,8 +82,10 @@ module Thredded
     # @param view_context
     # @return [Array<String>]
     def render_partials_serial(view_context, collection, opts)
-      partial_renderer = ActionView::PartialRenderer.new(@lookup_context, {})
-      collection.map { |object| partial_renderer.render(view_context, opts.merge(object: object), nil).body }
+      collection.map do |object|
+        partial_renderer = ActionView::PartialRenderer.new(@lookup_context, locals: { post: object })
+        partial_renderer.render(opts[:partial], view_context, nil).body
+      end
     end
   end
 end
